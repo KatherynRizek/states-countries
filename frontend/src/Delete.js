@@ -11,7 +11,8 @@ export class DeleteCountry extends React.Component {
         this.state = {
             countryInfo: [],
             value: '',
-            name: ''
+            name: '',
+            code: ''
         }
         this.handleDelete = this.handleDelete.bind(this);
     }
@@ -29,7 +30,8 @@ export class DeleteCountry extends React.Component {
 
     handleDelete() {
         let jsonBody = JSON.stringify({
-                name: this.state.name
+                name: this.state.name,
+                code: this.state.code
             });
         fetch(url + this.state.name, {
             method: 'DELETE',
@@ -50,7 +52,6 @@ export class DeleteCountry extends React.Component {
     }
 
     render() {
-
         let organizeCountries = this.state.countryInfo
         organizeCountries.sort(function(a, b){
             var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
@@ -62,9 +63,9 @@ export class DeleteCountry extends React.Component {
         })
 
         let optionItems = this.state.countryInfo.map((options, i) =>
-                <option key={i} value={options.name}>{options.name}</option>
+                <option key={i} value={options.code}>{options.name}</option>
             );
-
+        
         return (
             <div>
                 <h2>Use the dropdown to pick what country to remove from the database:<br/></h2>

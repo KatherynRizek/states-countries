@@ -50,7 +50,6 @@ export class States extends React.Component {
                 <option key={options.code}>{options.name}</option>
             );
             
-
         return (
             <div>
                 <label>
