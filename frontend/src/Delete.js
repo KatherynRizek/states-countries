@@ -1,13 +1,19 @@
 import React from 'react';
 const url = 'http://localhost:8000/countries/';
 
-export class Countries extends React.Component {
+export class DeleteCountry extends React.Component {
     constructor(props) {
         super(props);
+        // this.state = {
+        //     countryInfo: [],
+        //     value: ''
+        // };
         this.state = {
             countryInfo: [],
-            value: ''
-        };
+            value: '',
+            name: ''
+        }
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -21,7 +27,27 @@ export class Countries extends React.Component {
             })
     }
 
-    
+    handleDelete() {
+        let jsonBody = JSON.stringify({
+                name: this.state.name
+            });
+        fetch(url + this.state.name, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: jsonBody,
+        }).then(response=> {
+            if (!response.ok) {
+                throw new Error('Request failed!: ' + response.ok);
+            }
+            
+        }, networkError => console.log(networkError.message)
+        ).then(jsonResponse => {
+            return jsonResponse;
+        });
+    }
 
     render() {
 
@@ -36,19 +62,19 @@ export class Countries extends React.Component {
         })
 
         let optionItems = this.state.countryInfo.map((options, i) =>
-                <option key={i} value={options.code}>{options.name}</option>
+                <option key={i} value={options.name}>{options.name}</option>
             );
 
         return (
             <div>
-                <h2>Use the dropdown to see available countries and associated states:<br/></h2>
+                <h2>Use the dropdown to pick what country to remove from the database:<br/></h2>
                 <label>
-                    Pick your country:
+                    Pick your country:  
                     <select onChange={this.props.handleChange}>
                         {optionItems}
                     </select>
-                <br /><br />
-                </label>
+                </label> <br /><br />
+                <button type="button" onClick={this.handleDelete}>Delete Country</button><br /><br />
             </div>
         );
 

@@ -6,6 +6,7 @@ import {States} from './States.js';
 import {PostCountries} from './PostCountries';
 import {PostStates} from './PostStates';
 import {ViewCountries} from './ViewLists';
+import {DeleteCountry} from './Delete';
 
 class App extends Component {
 
@@ -40,6 +41,7 @@ class App extends Component {
         <States countryCode={this.state.countryCode}/>
         <PostCountries />
         <PostStates />
+        <DeleteCountry />
       </div>
     );
   }

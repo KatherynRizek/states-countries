@@ -49,8 +49,8 @@ class CountryInfoDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        country = self.get_object(pk)
+    def delete(self, request, countryName, format=None):
+        country = self.get_object(countryName)
         country.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
