@@ -15,6 +15,7 @@ export class DeleteCountry extends React.Component {
             code: ''
         }
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -28,18 +29,22 @@ export class DeleteCountry extends React.Component {
             })
     }
 
+    handleChange(event) {
+        this.setState({code:event.target.value})
+    }
+
     handleDelete() {
         let jsonBody = JSON.stringify({
                 name: this.state.name,
                 code: this.state.code
             });
-        fetch(url + this.state.name, {
+        fetch(url + this.state.code, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: jsonBody,
+            body: JSON.stringify(jsonBody),
         }).then(response=> {
             if (!response.ok) {
                 throw new Error('Request failed!: ' + response.ok);
@@ -71,9 +76,14 @@ export class DeleteCountry extends React.Component {
                 <h2>Use the dropdown to pick what country to remove from the database:<br/></h2>
                 <label>
                     Pick your country:  
-                    <select onChange={this.props.handleChange}>
+                    <select 
+                        value={this.state.code}
+                        onChange={this.handleChange}
+                    >
                         {optionItems}
                     </select>
+                    <br /> <br />
+                    Please note that deleting a country will delete <br /> all states associated with that country as well
                 </label> <br /><br />
                 <button type="button" onClick={this.handleDelete}>Delete Country</button><br /><br />
             </div>

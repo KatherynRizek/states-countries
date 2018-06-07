@@ -15,7 +15,8 @@ class App extends Component {
       this.state = {
           countryCode: '',
           inputFullCountry: '',
-          inputCountryCode: ''
+          inputCountryCode: '',
+          countryName: '',
       };
     }
 
@@ -23,7 +24,8 @@ class App extends Component {
     this.setState({
       countryCode: event.target.value,
       inputFullCountry: event.target.value,
-      inputCountryCode: event.target.value
+      inputCountryCode: event.target.value,
+      countryName: event.target.value
     });
     var countryCode = event.target.value;
   }
@@ -41,7 +43,7 @@ class App extends Component {
         <States countryCode={this.state.countryCode}/>
         <PostCountries />
         <PostStates />
-        <DeleteCountry />
+        <DeleteCountry handleChange={this.handleChange.bind(this)}/>
       </div>
     );
   }

@@ -1,7 +1,7 @@
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+#from django.http import HttpResponse, JsonResponse
+#from django.views.decorators.csrf import csrf_exempt
+#from rest_framework.renderers import JSONRenderer
+#from rest_framework.parsers import JSONParser
 from countries.models import CountryInfo
 from countries.serializers import CountryInfoSerializer
 from rest_framework import status
@@ -30,21 +30,20 @@ class CountryInfoDelete(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    def get(self, request, countryName, format=None):
-        countries = CountryInfo.objects.all()
+    def get(self, request, countryCode, format=None):
+        countries = CountryInfo.objects.filter(name=countryCode)
         serializer = CountryInfoSerializer(countries, many=True)
         return Response(serializer.data)
 
-    def post(self, request, countryName, format=None):
+    def post(self, request, countryCode, format=None):
         serializer = CountryInfoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, countryName, format=None):
-        pk = CountryInfo.objects.get(name=countryName).id
-        country = self.get_object(pk)
+    def delete(self, request, countryCode, format=None):
+        country = CountryInfo.objects.get(code=countryCode)
         country.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
